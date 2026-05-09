@@ -4,66 +4,51 @@
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, #eef5ff 0%, #f8fafc 45%, #ffffff 100%);
-  color: #0f172a;
+  color: #eaf6ff;
+  background:
+    radial-gradient(circle at top, rgba(0, 183, 255, 0.25), transparent 35%),
+    linear-gradient(180deg, #05111f 0%, #071b2d 45%, #040914 100%);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 main {
-  width: min(1120px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
-  padding: 20px;
+  padding: 22px;
 }
 
-.hero {
-  background: linear-gradient(135deg, #0f172a, #164e63, #0e7490);
-  color: #fff;
+.banner {
+  width: 100%;
+  overflow: hidden;
   border-radius: 28px;
-  padding: 34px;
-  margin-bottom: 20px;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  margin-bottom: 26px;
+  border: 1px solid rgba(102, 217, 255, 0.35);
+  box-shadow:
+    0 0 40px rgba(0, 183, 255, 0.25),
+    0 24px 70px rgba(0, 0, 0, 0.45);
 }
 
-.badge {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.16);
-  border: 1px solid rgba(255,255,255,.3);
-  font-size: 13px;
-  margin-bottom: 14px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 38px;
-  letter-spacing: -0.04em;
-}
-
-h2 {
-  margin-top: 0;
-}
-
-.hero p {
-  max-width: 760px;
-  line-height: 1.8;
-  color: #dbeafe;
+.banner img {
+  width: 100%;
+  display: block;
 }
 
 .inputCard,
 .plans,
 .chartCard,
-.notice {
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(12px);
-  border: 1px solid #e2e8f0;
-  border-radius: 26px;
-  padding: 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+.notice,
+.stat,
+.summary > div {
+  background: rgba(8, 28, 48, 0.72);
+  border: 1px solid rgba(93, 210, 255, 0.22);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
 }
 
 .inputCard {
+  border-radius: 26px;
+  padding: 24px;
+  margin-bottom: 22px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
@@ -71,119 +56,147 @@ h2 {
 
 .inputCard h2 {
   grid-column: 1 / -1;
+  margin: 0 0 6px;
+  color: #ffffff;
+  font-size: 24px;
 }
 
 label {
   display: grid;
   gap: 8px;
-  font-size: 14px;
+  color: #c9eeff;
   font-weight: 700;
+  font-size: 14px;
 }
 
 input,
 select {
   width: 100%;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  border-radius: 16px;
   padding: 15px;
+  border-radius: 16px;
+  border: 1px solid rgba(129, 222, 255, 0.35);
+  background: rgba(3, 15, 29, 0.72);
+  color: #ffffff;
   font-size: 16px;
   outline: none;
 }
 
 input:focus,
 select:focus {
-  border-color: #0284c7;
-  box-shadow: 0 0 0 4px rgba(2,132,199,.12);
+  border-color: #21d4ff;
+  box-shadow: 0 0 0 4px rgba(33, 212, 255, 0.15);
 }
 
 .mainStats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 18px;
   margin-bottom: 16px;
 }
 
-.stat,
-.summary > div {
-  background: #ffffff;
+.stat {
   border-radius: 24px;
   padding: 24px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 12px 28px rgba(15,23,42,.07);
 }
 
 .stat span,
 .summary span {
   display: block;
-  color: #64748b;
+  color: #8fdfff;
   font-size: 13px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .stat strong {
+  color: #ffffff;
   font-size: 34px;
   letter-spacing: -0.04em;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #fff7ed, #ffedd5);
-  border-color: #fed7aa;
+  background: linear-gradient(135deg, rgba(0, 206, 255, 0.25), rgba(0, 255, 191, 0.12));
+  border-color: rgba(0, 255, 221, 0.42);
 }
 
 .progressBar,
 .bigBar {
   height: 18px;
-  background: #dbeafe;
+  background: rgba(109, 174, 220, 0.22);
   border-radius: 999px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(132, 220, 255, 0.18);
 }
 
 .progressBar div,
 .bigBar div {
   height: 100%;
-  background: linear-gradient(90deg, #0284c7, #14b8a6);
+  background: linear-gradient(90deg, #00aaff, #00ffd5);
+  box-shadow: 0 0 18px rgba(0, 255, 213, 0.5);
 }
 
 .summary {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.summary > div {
+  border-radius: 22px;
+  padding: 22px;
 }
 
 .summary strong {
+  color: #ffffff;
   font-size: 24px;
+}
+
+.plans,
+.chartCard,
+.notice {
+  border-radius: 26px;
+  padding: 26px;
+  margin-bottom: 24px;
+}
+
+.plans h2,
+.chartCard h2 {
+  margin-top: 0;
+  color: #ffffff;
+  font-size: 26px;
 }
 
 .planGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 18px;
 }
 
 .plan {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: rgba(3, 16, 31, 0.74);
+  border: 1px solid rgba(110, 218, 255, 0.24);
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 12px 28px rgba(15,23,42,.06);
+  box-shadow: inset 0 0 30px rgba(0, 170, 255, 0.05);
 }
 
 .plan:nth-child(2) {
-  border: 2px solid #0284c7;
-  background: linear-gradient(180deg, #f0f9ff, #ffffff);
+  border: 2px solid rgba(0, 213, 255, 0.85);
+  box-shadow:
+    0 0 30px rgba(0, 183, 255, 0.22),
+    inset 0 0 30px rgba(0, 183, 255, 0.08);
 }
 
 .plan h3 {
   margin: 0;
+  color: #ffffff;
   font-size: 24px;
 }
 
 .plan p {
-  color: #64748b;
+  color: #9bddff;
   margin: 10px 0 18px;
 }
 
@@ -196,15 +209,16 @@ dl div {
   justify-content: space-between;
   gap: 12px;
   padding: 12px 0;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid rgba(123, 216, 255, 0.18);
 }
 
 dt {
-  color: #64748b;
+  color: #98dfff;
 }
 
 dd {
   margin: 0;
+  color: #ffffff;
   font-weight: 800;
 }
 
@@ -217,18 +231,18 @@ dd {
 }
 
 .barScale {
+  color: #8fdfff;
   margin-top: 8px;
-  color: #64748b;
   font-size: 13px;
 }
 
 .notice {
-  color: #64748b;
+  color: #c9eeff;
   line-height: 1.8;
 }
 
 .notice strong {
-  color: #0f172a;
+  color: #ffffff;
 }
 
 @media (max-width: 820px) {
@@ -236,13 +250,9 @@ dd {
     padding: 12px;
   }
 
-  .hero {
-    padding: 24px;
-    border-radius: 22px;
-  }
-
-  h1 {
-    font-size: 28px;
+  .banner {
+    border-radius: 18px;
+    margin-bottom: 16px;
   }
 
   .inputCard,
@@ -252,7 +262,19 @@ dd {
     grid-template-columns: 1fr;
   }
 
+  .inputCard,
+  .plans,
+  .chartCard,
+  .notice {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
   .stat strong {
     font-size: 30px;
+  }
+
+  .summary strong {
+    font-size: 22px;
   }
 }
