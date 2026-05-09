@@ -73,33 +73,9 @@ export default function Home() {
 
   return (
     <main>
-  <div
-    style={{
-      width: "100%",
-      marginBottom: "30px",
-      borderRadius: "20px",
-      overflow: "hidden",
-      boxShadow: "0 12px 30px rgba(0,0,0,0.2)"
-    }}
-  >
-    <img
-      src="/team-banner.png"
-      alt="FX目標達成シミュレーター"
-      style={{
-        width: "100%",
-        height: "auto",
-        display: "block"
-      }}
-    />
-  </div>
-
-      <section className="hero">
-        <div className="badge">スマホ対応｜月間目標管理</div>
-        <h1>FX 目標達成シミュレーター</h1>
-        <p>
-          現在資金と1ヶ月の目標金額を入力すると、必要なロット目安・月間取引回数・今日の行動目安を自動計算します。
-        </p>
-      </section>
+      <div className="banner">
+        <img src="/team-banner.png" alt="FX目標達成シミュレーター" />
+      </div>
 
       <section className="inputCard">
         <h2>入力項目</h2>
