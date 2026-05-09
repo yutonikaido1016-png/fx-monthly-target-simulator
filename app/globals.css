@@ -4,7 +4,249 @@
 
 body {
   margin: 0;
-  padding: 0;
-  background: #f8fafc;
-  font-family: sans-serif;
+  background: #f3f7fb;
+  color: #102033;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+main {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.hero {
+  background: linear-gradient(135deg, #123b63, #1d6fa5);
+  color: white;
+  border-radius: 28px;
+  padding: 28px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 30px rgba(18, 59, 99, 0.22);
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -0.04em;
+}
+
+.hero p {
+  margin: 14px 0 0;
+  line-height: 1.8;
+  color: #e6f2ff;
+}
+
+.inputCard,
+.chartCard,
+.notice,
+.plans {
+  background: white;
+  border-radius: 24px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 22px rgba(16, 32, 51, 0.06);
+}
+
+.inputCard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.inputCard h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+}
+
+label {
+  display: grid;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid #d7e0ea;
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 16px;
+  background: #fbfdff;
+}
+
+.mainStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.stat,
+.summary > div {
+  background: white;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(16, 32, 51, 0.06);
+}
+
+.stat span,
+.summary span {
+  display: block;
+  color: #657589;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.stat strong {
+  font-size: 30px;
+}
+
+.highlight {
+  background: #fff3d8;
+}
+
+.progressBar,
+.bigBar {
+  height: 18px;
+  background: #dde8f2;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.progressBar div,
+.bigBar div {
+  height: 100%;
+  background: linear-gradient(90deg, #1d6fa5, #19b394);
+  border-radius: 999px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.summary strong {
+  font-size: 22px;
+}
+
+.plans h2,
+.chartCard h2 {
+  margin-top: 0;
+}
+
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.plan {
+  border: 1px solid #dce6f0;
+  border-radius: 22px;
+  padding: 20px;
+  background: #fbfdff;
+}
+
+.plan:nth-child(2) {
+  border: 2px solid #1d6fa5;
+  background: #f2f9ff;
+}
+
+.plan h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.plan p {
+  color: #657589;
+  margin: 8px 0 16px;
+}
+
+dl {
+  margin: 0;
+}
+
+dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #e8eef5;
+  padding: 11px 0;
+}
+
+dt {
+  color: #657589;
+}
+
+dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.barLabel,
+.barScale {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.barScale {
+  margin-top: 8px;
+  color: #657589;
+  font-size: 13px;
+}
+
+.notice {
+  color: #526174;
+  line-height: 1.8;
+}
+
+.notice strong {
+  color: #102033;
+}
+
+@media (max-width: 800px) {
+  main {
+    padding: 12px;
+  }
+
+  .hero {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .inputCard,
+  .mainStats,
+  .summary,
+  .planGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat strong {
+    font-size: 28px;
+  }
+
+  .summary strong {
+    font-size: 20px;
+  }
 }
