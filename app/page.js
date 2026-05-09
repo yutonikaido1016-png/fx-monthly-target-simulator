@@ -73,9 +73,25 @@ export default function Home() {
 
   return (
     <main>
-      <div className="banner">
-        <img src="/team-banner.png." alt="FX目標達成シミュレーター" />
-      </div>
+  <div
+    style={{
+      width: "100%",
+      marginBottom: "30px",
+      borderRadius: "20px",
+      overflow: "hidden",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.2)"
+    }}
+  >
+    <img
+      src="/team-banner.png"
+      alt="FX目標達成シミュレーター"
+      style={{
+        width: "100%",
+        height: "auto",
+        display: "block"
+      }}
+    />
+  </div>
 
       <section className="hero">
         <div className="badge">スマホ対応｜月間目標管理</div>
