@@ -36,7 +36,7 @@ export default function Home() {
   ];
 
   const data = useMemo(() => {
-    const cfg = pairConfig[pair as keyof typeof pairConfig];
+    const cfg = pairConfig[pair];
     const progress = target > 0 ? Math.min((capital / target) * 100, 100) : 0;
     const needProfit = Math.max(target - capital, 0);
 
@@ -69,221 +69,163 @@ export default function Home() {
     return { cfg, progress, needProfit, results, score };
   }, [target, capital, pair, days]);
 
-  const yen = (num: number) => "¥" + Math.round(num).toLocaleString();
+  const yen = (num) => "¥" + Math.round(num).toLocaleString();
 
   return (
-    <main
-      style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        padding: "20px",
-        fontFamily: "sans-serif",
-        background: "#f8fafc",
-      }}
-    >
-      {/* バナー */}
-      <div
-        style={{
-          width: "100%",
-          marginBottom: "30px",
-          borderRadius: "20px",
-          overflow: "hidden",
-          boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
-        }}
-      >
-        <img
-          src="/team-banner.png"
-          alt="FX目標達成シミュレーター"
-          style={{
-            width: "100%",
-            display: "block",
-          }}
-        />
+    <main>
+      <div className="banner">
+        <img src="/team-banner.png" alt="FX目標達成シミュレーター" />
       </div>
 
-      {/* タイトル */}
-      <section
-        style={{
-          background: "#ffffff",
-          padding: "24px",
-          borderRadius: "20px",
-          marginBottom: "24px",
-          boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "32px",
-            marginBottom: "10px",
-          }}
-        >
-          FX 目標達成シミュレーター
-        </h1>
-        <p style={{ color: "#64748b" }}>
-          現在資金と目標金額を入力すると、自動で最適プランを計算します。
+      <section className="hero">
+        <div className="badge">スマホ対応｜月間目標管理</div>
+        <h1>FX 目標達成シミュレーター</h1>
+        <p>
+          現在資金と1ヶ月の目標金額を入力すると、必要なロット目安・月間取引回数・今日の行動目安を自動計算します。
         </p>
       </section>
 
-      {/* 入力欄 */}
-      <section
-        style={{
-          background: "#fff",
-          padding: "24px",
-          borderRadius: "20px",
-          marginBottom: "24px",
-        }}
-      >
+      <section className="inputCard">
         <h2>入力項目</h2>
 
-        <div style={{ display: "grid", gap: "16px" }}>
+        <label>
+          1ヶ月の目標金額（円）
           <input
             type="number"
             value={target}
             onChange={(e) => setTarget(Number(e.target.value))}
-            placeholder="目標金額"
           />
+        </label>
 
+        <label>
+          現在資金（円）
           <input
             type="number"
             value={capital}
             onChange={(e) => setCapital(Number(e.target.value))}
-            placeholder="現在資金"
           />
+        </label>
 
+        <label>
+          取引通貨ペア
           <select value={pair} onChange={(e) => setPair(e.target.value)}>
             <option value="USDJPY">USD/JPY</option>
             <option value="XAUUSD">XAU/USD</option>
             <option value="BTCUSD">Bitcoin</option>
           </select>
+        </label>
 
+        <label>
+          今月の残り取引日数
           <input
             type="number"
             value={days}
             onChange={(e) => setDays(Number(e.target.value))}
-            placeholder="残り日数"
           />
+        </label>
+      </section>
+
+      <section className="mainStats">
+        <div className="stat">
+          <span>月間目標金額</span>
+          <strong>{yen(target)}</strong>
+        </div>
+        <div className="stat">
+          <span>現在資金</span>
+          <strong>{yen(capital)}</strong>
+        </div>
+        <div className="stat highlight">
+          <span>進捗率</span>
+          <strong>{data.progress.toFixed(1)}%</strong>
         </div>
       </section>
 
-      {/* メインステータス */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gap: "16px",
-          marginBottom: "24px",
-        }}
-      >
-        <Stat title="月間目標" value={yen(target)} />
-        <Stat title="現在資金" value={yen(capital)} />
-        <Stat title="進捗率" value={`${data.progress.toFixed(1)}%`} />
-      </section>
-
-      {/* 進捗バー */}
-      <div
-        style={{
-          background: "#e2e8f0",
-          borderRadius: "999px",
-          overflow: "hidden",
-          height: "16px",
-          marginBottom: "24px",
-        }}
-      >
-        <div
-          style={{
-            width: `${data.progress}%`,
-            background: "#2563eb",
-            height: "100%",
-          }}
-        />
+      <div className="progressBar">
+        <div style={{ width: `${data.progress}%` }} />
       </div>
 
-      {/* サマリー */}
-      <section
-        style={{
-          background: "#fff",
-          padding: "24px",
-          borderRadius: "20px",
-          marginBottom: "24px",
-        }}
-      >
-        <p>残り必要利益：{yen(data.needProfit)}</p>
-        <p>通貨ペア：{data.cfg.name}</p>
-        <p>損切り目安：{data.cfg.stop}</p>
-        <p>達成スコア：{data.score}</p>
+      <section className="summary">
+        <div>
+          <span>残り必要利益</span>
+          <strong>{yen(data.needProfit)}</strong>
+        </div>
+        <div>
+          <span>通貨ペア</span>
+          <strong>{data.cfg.name}</strong>
+        </div>
+        <div>
+          <span>損切り目安</span>
+          <strong>{data.cfg.stop}</strong>
+        </div>
+        <div>
+          <span>達成スコア</span>
+          <strong>{data.score}</strong>
+        </div>
       </section>
 
-      {/* プラン */}
-      <section>
+      <section className="plans">
         <h2>3つの達成プラン</h2>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: "20px",
-          }}
-        >
+        <div className="planGrid">
           {data.results.map((p) => (
-            <div
-              key={p.name}
-              style={{
-                background: "#fff",
-                padding: "24px",
-                borderRadius: "20px",
-                boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
-              }}
-            >
+            <div className="plan" key={p.name}>
               <h3>{p.name}</h3>
               <p>{p.text}</p>
 
-              <p>ロット目安：{p.lot.toFixed(2)} lot</p>
-              <p>想定損失：{yen(p.risk)}</p>
-              <p>月間必要回数：{p.monthlyTrades}回</p>
-              <p>今日の目標回数：{p.dailyTrades}回</p>
-              <p>今日の目標lot：{p.dailyLot.toFixed(2)} lot</p>
-              <p>狙える目標金額：{yen(p.reachable)}</p>
+              <dl>
+                <div>
+                  <dt>ロット目安</dt>
+                  <dd>{p.lot.toFixed(2)} lot</dd>
+                </div>
+                <div>
+                  <dt>1回の想定損失</dt>
+                  <dd>{yen(p.risk)}</dd>
+                </div>
+                <div>
+                  <dt>月間必要取引回数</dt>
+                  <dd>{p.monthlyTrades}回</dd>
+                </div>
+                <div>
+                  <dt>今日の目標回数</dt>
+                  <dd>{p.dailyTrades}回</dd>
+                </div>
+                <div>
+                  <dt>今日の目標lot</dt>
+                  <dd>{p.dailyLot.toFixed(2)} lot</dd>
+                </div>
+                <div>
+                  <dt>狙える目標金額</dt>
+                  <dd>{yen(p.reachable)}</dd>
+                </div>
+              </dl>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 注意 */}
-      <section
-        style={{
-          marginTop: "40px",
-          padding: "20px",
-          background: "#fff7ed",
-          borderRadius: "20px",
-        }}
-      >
+      <section className="chartCard">
+        <h2>目標達成イメージ</h2>
+        <div className="barWrap">
+          <div className="barLabel">
+            <span>現在</span>
+            <span>{data.progress.toFixed(1)}%</span>
+          </div>
+          <div className="bigBar">
+            <div style={{ width: `${data.progress}%` }} />
+          </div>
+          <div className="barScale">
+            <span>{yen(0)}</span>
+            <span>{yen(target)}</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="notice">
         <strong>ご利用上の注意</strong>
         <p>
-          このシミュレーションは参考値です。実際の結果は相場状況により変動します。
+          このシミュレーションは目標達成までの目安を確認するための参考情報です。相場状況、スプレッド、約定、損切り幅により実際の結果は変動します。
         </p>
       </section>
     </main>
-  );
-}
-
-function Stat({
-  title,
-  value,
-}: {
-  title: string;
-  value: string;
-}) {
-  return (
-    <div
-      style={{
-        background: "#fff",
-        padding: "20px",
-        borderRadius: "20px",
-        boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
-      }}
-    >
-      <div style={{ color: "#64748b", marginBottom: "8px" }}>{title}</div>
-      <div style={{ fontSize: "24px", fontWeight: "bold" }}>{value}</div>
-    </div>
   );
 }
