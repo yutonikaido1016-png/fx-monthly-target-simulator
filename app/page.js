@@ -74,7 +74,7 @@ export default function Home() {
   return (
     <main>
       <div className="banner">
-        <img src="/team-banner.png" alt="FX目標達成シミュレーター" />
+        <img src="/team-banner.png.png" alt="FX目標達成シミュレーター" />
       </div>
 
       <section className="hero">
