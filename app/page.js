@@ -8,9 +8,8 @@ export default function Home() {
   const [pair, setPair] = useState("USDJPY");
   const [days, setDays] = useState(22);
   const [usdJpyRate, setUsdJpyRate] = useState(155);
-
-  const winRate = 0.4;
-  const rewardRisk = 2;
+  const [winRateInput, setWinRateInput] = useState(40);
+  const [rewardRisk, setRewardRisk] = useState(2);
 
   const pairConfig = {
     USDJPY: {
@@ -35,6 +34,7 @@ export default function Home() {
 
   const data = useMemo(() => {
     const cfg = pairConfig[pair];
+    const winRate = winRateInput / 100;
 
     const lossPerLot =
       pair === "USDJPY"
@@ -92,9 +92,9 @@ export default function Home() {
       needProfit,
       results,
       score,
-      lossPerLot,
+      winRate,
     };
-  }, [target, capital, pair, days, usdJpyRate]);
+  }, [target, capital, pair, days, usdJpyRate, winRateInput, rewardRisk]);
 
   const yen = (num) => "¥" + Math.round(num).toLocaleString();
 
@@ -151,6 +151,25 @@ export default function Home() {
             onChange={(e) => setUsdJpyRate(Number(e.target.value))}
           />
         </label>
+
+        <label>
+          想定勝率（%）
+          <input
+            type="number"
+            value={winRateInput}
+            onChange={(e) => setWinRateInput(Number(e.target.value))}
+          />
+        </label>
+
+        <label>
+          想定RR（1:2なら2）
+          <input
+            type="number"
+            step="0.1"
+            value={rewardRisk}
+            onChange={(e) => setRewardRisk(Number(e.target.value))}
+          />
+        </label>
       </section>
 
       <section className="mainStats">
@@ -191,8 +210,10 @@ export default function Home() {
         </div>
 
         <div>
-          <span>想定勝率 / RR</span>
-          <strong>40% / 1:2</strong>
+          <span>勝率 / RR</span>
+          <strong>
+            {winRateInput}% / 1:{rewardRisk}
+          </strong>
         </div>
       </section>
 
@@ -277,7 +298,7 @@ export default function Home() {
       <section className="notice">
         <strong>ご利用上の注意</strong>
         <p>
-          このシミュレーションは、勝率40%・リスクリワード1:2を前提に、
+          このシミュレーションは、入力された勝率・リスクリワードを前提に、
           1回あたりの期待値から月間必要取引回数を算出しています。
           XAU/USD・BTC/USDは入力されたドル円レートをもとに円換算しています。
           実際の結果は相場状況、スプレッド、約定、損切り幅により変動します。
