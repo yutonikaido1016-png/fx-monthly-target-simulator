@@ -9,15 +9,30 @@ export default function Home() {
   const [days, setDays] = useState(22);
 
   const pairConfig = {
-    USDJPY: { name: "USD/JPY", stop: "20pips", lossPerLot: 20000, profitPerLot: 40000 },
-    XAUUSD: { name: "XAU/USD", stop: "50pips", lossPerLot: 50000, profitPerLot: 100000 },
-    BTCUSD: { name: "Bitcoin", stop: "500ドル幅", lossPerLot: 75000, profitPerLot: 150000 },
+    USDJPY: {
+      name: "USD/JPY",
+      stop: "20pips",
+      lossPerLot: 20000,
+      profitPerLot: 40000,
+    },
+    XAUUSD: {
+      name: "XAU/USD",
+      stop: "50pips",
+      lossPerLot: 50000,
+      profitPerLot: 100000,
+    },
+    BTCUSD: {
+      name: "Bitcoin",
+      stop: "500ドル幅",
+      lossPerLot: 75000,
+      profitPerLot: 150000,
+    },
   };
 
   const plans = [
-    { name: "安全ロット", rate: 0.02, text: "まずは安定重視" },
-    { name: "成長ロット", rate: 0.05, text: "目標達成を狙う標準" },
-    { name: "加速ロット", rate: 0.08, text: "短期達成を狙う攻め" },
+    { name: "安全ロット", rate: 0.03, text: "まずは安定重視" },
+    { name: "成長ロット", rate: 0.07, text: "目標達成を狙う標準" },
+    { name: "加速ロット", rate: 0.15, text: "短期達成を狙う攻め" },
   ];
 
   const data = useMemo(() => {
@@ -29,12 +44,21 @@ export default function Home() {
       const risk = capital * p.rate;
       const lot = Math.max(risk / cfg.lossPerLot, 0.01);
       const profitPerTrade = lot * cfg.profitPerLot;
-      const monthlyTrades = profitPerTrade > 0 ? Math.ceil(needProfit / profitPerTrade) : 0;
+      const monthlyTrades =
+        profitPerTrade > 0 ? Math.ceil(needProfit / profitPerTrade) : 0;
       const dailyTrades = days > 0 ? Math.ceil(monthlyTrades / days) : 0;
       const dailyLot = lot * dailyTrades;
       const reachable = capital + profitPerTrade * days;
 
-      return { ...p, lot, risk, monthlyTrades, dailyTrades, dailyLot, reachable };
+      return {
+        ...p,
+        lot,
+        risk,
+        monthlyTrades,
+        dailyTrades,
+        dailyLot,
+        reachable,
+      };
     });
 
     let score = "C";
@@ -58,12 +82,20 @@ export default function Home() {
 
         <label>
           1ヶ月の目標金額（円）
-          <input type="number" value={target} onChange={(e) => setTarget(Number(e.target.value))} />
+          <input
+            type="number"
+            value={target}
+            onChange={(e) => setTarget(Number(e.target.value))}
+          />
         </label>
 
         <label>
           現在資金（円）
-          <input type="number" value={capital} onChange={(e) => setCapital(Number(e.target.value))} />
+          <input
+            type="number"
+            value={capital}
+            onChange={(e) => setCapital(Number(e.target.value))}
+          />
         </label>
 
         <label>
@@ -77,7 +109,11 @@ export default function Home() {
 
         <label>
           今月の残り取引日数
-          <input type="number" value={days} onChange={(e) => setDays(Number(e.target.value))} />
+          <input
+            type="number"
+            value={days}
+            onChange={(e) => setDays(Number(e.target.value))}
+          />
         </label>
       </section>
 
@@ -129,12 +165,30 @@ export default function Home() {
               <p>{p.text}</p>
 
               <dl>
-                <div><dt>ロット目安</dt><dd>{p.lot.toFixed(2)} lot</dd></div>
-                <div><dt>1回の想定損失</dt><dd>{yen(p.risk)}</dd></div>
-                <div><dt>月間必要取引回数</dt><dd>{p.monthlyTrades}回</dd></div>
-                <div><dt>今日の目標回数</dt><dd>{p.dailyTrades}回</dd></div>
-                <div><dt>今日の目標lot</dt><dd>{p.dailyLot.toFixed(2)} lot</dd></div>
-                <div><dt>狙える目標金額</dt><dd>{yen(p.reachable)}</dd></div>
+                <div>
+                  <dt>ロット目安</dt>
+                  <dd>{p.lot.toFixed(2)} lot</dd>
+                </div>
+                <div>
+                  <dt>1回の想定損失</dt>
+                  <dd>{yen(p.risk)}</dd>
+                </div>
+                <div>
+                  <dt>月間必要取引回数</dt>
+                  <dd>{p.monthlyTrades}回</dd>
+                </div>
+                <div>
+                  <dt>今日の目標回数</dt>
+                  <dd>{p.dailyTrades}回</dd>
+                </div>
+                <div>
+                  <dt>今日の目標lot</dt>
+                  <dd>{p.dailyLot.toFixed(2)} lot</dd>
+                </div>
+                <div>
+                  <dt>狙える目標金額</dt>
+                  <dd>{yen(p.reachable)}</dd>
+                </div>
               </dl>
             </div>
           ))}
@@ -147,9 +201,11 @@ export default function Home() {
           <span>現在</span>
           <span>{data.progress.toFixed(1)}%</span>
         </div>
+
         <div className="bigBar">
           <div style={{ width: `${data.progress}%` }} />
         </div>
+
         <div className="barScale">
           <span>{yen(0)}</span>
           <span>{yen(target)}</span>
@@ -159,7 +215,8 @@ export default function Home() {
       <section className="notice">
         <strong>ご利用上の注意</strong>
         <p>
-          このシミュレーションは目標達成までの目安を確認するための参考情報です。相場状況、スプレッド、約定、損切り幅により実際の結果は変動します。
+          このシミュレーションは目標達成までの目安を確認するための参考情報です。
+          相場状況、スプレッド、約定、損切り幅により実際の結果は変動します。
         </p>
       </section>
     </main>
