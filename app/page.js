@@ -10,6 +10,8 @@ export default function Home() {
   const [winRateInput, setWinRateInput] = useState(40);
   const [rewardRisk, setRewardRisk] = useState(2);
 
+  const monthlyTradingDays = 22;
+
   const pairConfig = {
     USDJPY: {
       name: "USD/JPY",
@@ -36,7 +38,9 @@ export default function Home() {
     const winRate = winRateInput / 100;
 
     const lossPerLot =
-      pair === "USDJPY" ? cfg.lossPerLotJPY : cfg.lossPerLotUSD * usdJpyRate;
+      pair === "USDJPY"
+        ? cfg.lossPerLotJPY
+        : cfg.lossPerLotUSD * usdJpyRate;
 
     const progress = target > 0 ? Math.min((capital / target) * 100, 100) : 0;
     const needProfit = Math.max(target - capital, 0);
@@ -53,9 +57,13 @@ export default function Home() {
       const expectancy = winRate * profitAmount - (1 - winRate) * lossAmount;
       const riskPercent = capital > 0 ? (lossAmount / capital) * 100 : 0;
 
-      const dailyTrades = expectancy > 0 ? Math.ceil(needProfit / expectancy) : 0;
+      const dailyTrades =
+        expectancy > 0
+          ? Math.ceil(needProfit / expectancy / monthlyTradingDays)
+          : 0;
+
       const dailyLot = p.lot * dailyTrades;
-      const reachable = capital + expectancy * dailyTrades;
+      const reachable = capital + expectancy * dailyTrades * monthlyTradingDays;
 
       return {
         ...p,
@@ -265,6 +273,7 @@ export default function Home() {
         <p>
           このシミュレーションは、入力された勝率・リスクリワードを前提に、
           1回あたりの期待値から今日の目標回数を算出しています。
+          今日の目標回数は、月間22営業日を想定して日割り計算しています。
           XAU/USD・BTC/USDは入力されたドル円レートをもとに円換算しています。
           実際の結果は相場状況、スプレッド、約定、損切り幅により変動します。
         </p>
