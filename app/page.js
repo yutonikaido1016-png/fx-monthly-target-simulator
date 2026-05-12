@@ -6,7 +6,6 @@ export default function Home() {
   const [target, setTarget] = useState(300000);
   const [capital, setCapital] = useState(100000);
   const [pair, setPair] = useState("USDJPY");
-  const [days, setDays] = useState(22);
   const [usdJpyRate, setUsdJpyRate] = useState(155);
   const [winRateInput, setWinRateInput] = useState(40);
   const [rewardRisk, setRewardRisk] = useState(2);
@@ -53,9 +52,10 @@ export default function Home() {
       const profitAmount = lossAmount * rewardRisk;
       const expectancy = winRate * profitAmount - (1 - winRate) * lossAmount;
       const riskPercent = capital > 0 ? (lossAmount / capital) * 100 : 0;
-      const dailyTrades = expectancy > 0 && days > 0 ? Math.ceil(needProfit / expectancy / days) : 0;
+
+      const dailyTrades = expectancy > 0 ? Math.ceil(needProfit / expectancy) : 0;
       const dailyLot = p.lot * dailyTrades;
-      const reachable = capital + expectancy * days;
+      const reachable = capital + expectancy * dailyTrades;
 
       return {
         ...p,
@@ -75,7 +75,7 @@ export default function Home() {
     else if (results[1].dailyTrades <= 5) score = "B";
 
     return { cfg, progress, needProfit, results, score };
-  }, [target, capital, pair, days, usdJpyRate, winRateInput, rewardRisk]);
+  }, [target, capital, pair, usdJpyRate, winRateInput, rewardRisk]);
 
   const yen = (num) => "¥" + Math.round(num).toLocaleString();
 
@@ -90,12 +90,20 @@ export default function Home() {
 
         <label>
           1ヶ月の目標金額（円）
-          <input type="number" value={target} onChange={(e) => setTarget(Number(e.target.value))} />
+          <input
+            type="number"
+            value={target}
+            onChange={(e) => setTarget(Number(e.target.value))}
+          />
         </label>
 
         <label>
           現在資金（円）
-          <input type="number" value={capital} onChange={(e) => setCapital(Number(e.target.value))} />
+          <input
+            type="number"
+            value={capital}
+            onChange={(e) => setCapital(Number(e.target.value))}
+          />
         </label>
 
         <label>
@@ -108,23 +116,31 @@ export default function Home() {
         </label>
 
         <label>
-          今月の残り取引日数
-          <input type="number" value={days} onChange={(e) => setDays(Number(e.target.value))} />
-        </label>
-
-        <label>
           現在のドル円レート
-          <input type="number" value={usdJpyRate} onChange={(e) => setUsdJpyRate(Number(e.target.value))} />
+          <input
+            type="number"
+            value={usdJpyRate}
+            onChange={(e) => setUsdJpyRate(Number(e.target.value))}
+          />
         </label>
 
         <label>
           想定勝率（%）
-          <input type="number" value={winRateInput} onChange={(e) => setWinRateInput(Number(e.target.value))} />
+          <input
+            type="number"
+            value={winRateInput}
+            onChange={(e) => setWinRateInput(Number(e.target.value))}
+          />
         </label>
 
         <label>
           想定RR（1:2なら2）
-          <input type="number" step="0.1" value={rewardRisk} onChange={(e) => setRewardRisk(Number(e.target.value))} />
+          <input
+            type="number"
+            step="0.1"
+            value={rewardRisk}
+            onChange={(e) => setRewardRisk(Number(e.target.value))}
+          />
         </label>
       </section>
 
@@ -208,7 +224,7 @@ export default function Home() {
 
                 <div>
                   <dt>今日の目標回数</dt>
-                  <dd>{p.dailyTrades}回</dd>
+                  <dd className="dailyTradesRed">{p.dailyTrades}回</dd>
                 </div>
 
                 <div>
