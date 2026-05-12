@@ -222,6 +222,13 @@ dd {
   font-weight: 800;
 }
 
+.expectancyRed {
+  color: #ff4d6d !important;
+  font-weight: 900;
+  font-size: 24px;
+  text-shadow: 0 0 18px rgba(255, 77, 109, 0.35);
+}
+
 .barLabel,
 .barScale {
   display: flex;
