@@ -37,9 +37,7 @@ export default function Home() {
     const winRate = winRateInput / 100;
 
     const lossPerLot =
-      pair === "USDJPY"
-        ? cfg.lossPerLotJPY
-        : cfg.lossPerLotUSD * usdJpyRate;
+      pair === "USDJPY" ? cfg.lossPerLotJPY : cfg.lossPerLotUSD * usdJpyRate;
 
     const progress = target > 0 ? Math.min((capital / target) * 100, 100) : 0;
     const needProfit = Math.max(target - capital, 0);
@@ -53,19 +51,10 @@ export default function Home() {
     const results = plans.map((p) => {
       const lossAmount = p.lot * lossPerLot;
       const profitAmount = lossAmount * rewardRisk;
-
-      const expectancy =
-        winRate * profitAmount - (1 - winRate) * lossAmount;
-
+      const expectancy = winRate * profitAmount - (1 - winRate) * lossAmount;
       const riskPercent = capital > 0 ? (lossAmount / capital) * 100 : 0;
-
-      const monthlyTrades =
-        expectancy > 0 ? Math.ceil(needProfit / expectancy) : 0;
-
-      const dailyTrades = days > 0 ? Math.ceil(monthlyTrades / days) : 0;
-
+      const dailyTrades = expectancy > 0 && days > 0 ? Math.ceil(needProfit / expectancy / days) : 0;
       const dailyLot = p.lot * dailyTrades;
-
       const reachable = capital + expectancy * days;
 
       return {
@@ -74,7 +63,6 @@ export default function Home() {
         profitAmount,
         expectancy,
         riskPercent,
-        monthlyTrades,
         dailyTrades,
         dailyLot,
         reachable,
@@ -86,14 +74,7 @@ export default function Home() {
     else if (results[1].dailyTrades <= 2) score = "A";
     else if (results[1].dailyTrades <= 5) score = "B";
 
-    return {
-      cfg,
-      progress,
-      needProfit,
-      results,
-      score,
-      winRate,
-    };
+    return { cfg, progress, needProfit, results, score };
   }, [target, capital, pair, days, usdJpyRate, winRateInput, rewardRisk]);
 
   const yen = (num) => "¥" + Math.round(num).toLocaleString();
@@ -109,20 +90,12 @@ export default function Home() {
 
         <label>
           1ヶ月の目標金額（円）
-          <input
-            type="number"
-            value={target}
-            onChange={(e) => setTarget(Number(e.target.value))}
-          />
+          <input type="number" value={target} onChange={(e) => setTarget(Number(e.target.value))} />
         </label>
 
         <label>
           現在資金（円）
-          <input
-            type="number"
-            value={capital}
-            onChange={(e) => setCapital(Number(e.target.value))}
-          />
+          <input type="number" value={capital} onChange={(e) => setCapital(Number(e.target.value))} />
         </label>
 
         <label>
@@ -136,39 +109,22 @@ export default function Home() {
 
         <label>
           今月の残り取引日数
-          <input
-            type="number"
-            value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
-          />
+          <input type="number" value={days} onChange={(e) => setDays(Number(e.target.value))} />
         </label>
 
         <label>
           現在のドル円レート
-          <input
-            type="number"
-            value={usdJpyRate}
-            onChange={(e) => setUsdJpyRate(Number(e.target.value))}
-          />
+          <input type="number" value={usdJpyRate} onChange={(e) => setUsdJpyRate(Number(e.target.value))} />
         </label>
 
         <label>
           想定勝率（%）
-          <input
-            type="number"
-            value={winRateInput}
-            onChange={(e) => setWinRateInput(Number(e.target.value))}
-          />
+          <input type="number" value={winRateInput} onChange={(e) => setWinRateInput(Number(e.target.value))} />
         </label>
 
         <label>
           想定RR（1:2なら2）
-          <input
-            type="number"
-            step="0.1"
-            value={rewardRisk}
-            onChange={(e) => setRewardRisk(Number(e.target.value))}
-          />
+          <input type="number" step="0.1" value={rewardRisk} onChange={(e) => setRewardRisk(Number(e.target.value))} />
         </label>
       </section>
 
@@ -211,9 +167,7 @@ export default function Home() {
 
         <div>
           <span>勝率 / RR</span>
-          <strong>
-            {winRateInput}% / 1:{rewardRisk}
-          </strong>
+          <strong>{winRateInput}% / 1:{rewardRisk}</strong>
         </div>
       </section>
 
@@ -244,17 +198,12 @@ export default function Home() {
 
                 <div>
                   <dt>1回あたり期待値</dt>
-                  <dd>{yen(p.expectancy)}</dd>
+                  <dd className="expectancyRed">{yen(p.expectancy)}</dd>
                 </div>
 
                 <div>
                   <dt>資金に対する損失率</dt>
                   <dd>{p.riskPercent.toFixed(1)}%</dd>
-                </div>
-
-                <div>
-                  <dt>月間必要取引回数</dt>
-                  <dd>{p.monthlyTrades}回</dd>
                 </div>
 
                 <div>
@@ -299,7 +248,7 @@ export default function Home() {
         <strong>ご利用上の注意</strong>
         <p>
           このシミュレーションは、入力された勝率・リスクリワードを前提に、
-          1回あたりの期待値から月間必要取引回数を算出しています。
+          1回あたりの期待値から今日の目標回数を算出しています。
           XAU/USD・BTC/USDは入力されたドル円レートをもとに円換算しています。
           実際の結果は相場状況、スプレッド、約定、損切り幅により変動します。
         </p>
